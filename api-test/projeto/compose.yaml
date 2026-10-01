@@ -1,0 +1,11 @@
+services:
+  projeto:
+    container_name: simpsons-api
+    image: simpsons-api:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SIMPSONS_API_URL: ${SIMPSONS_API_URL:-https://thesimpsonsapi.com/api}
