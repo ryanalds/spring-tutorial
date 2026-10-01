@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consulta de personagens Simpsons</title>
+    <style>
+        body { max-width: 720px; margin: 3rem auto; padding: 0 1rem; font: 16px system-ui, sans-serif; color: #222; }
+        form { display: flex; gap: .5rem; margin: 1.5rem 0; }
+        input, button { padding: .65rem; font: inherit; }
+        input { width: 8rem; }
+        button { cursor: pointer; }
+        .error { color: #a21b1b; }
+        .card { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; }
+        dt { font-weight: 700; margin-top: .65rem; }
+        dd { margin-left: 0; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Consultar personagem dos Simpsons</h1>
+    <p>Informe o ID para buscar um personagem na API.</p>
+
+    <form method="get" th:action="@{/}">
+        <label for="id">ID do personagem</label>
+        <input id="id" name="id" type="number" min="1" required th:value="${searchedId}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p class="error" role="alert" th:if="${error}" th:text="${error}"></p>
+
+    <section class="card" th:if="${character}" aria-live="polite">
+        <h2 th:text="${character.name}">Nome</h2>
+        <dl>
+            <dt>ID</dt><dd th:text="${character.id}"></dd>
+            <dt>Idade</dt><dd th:text="${character.age != null ? character.age : 'Não informada'}"></dd>
+            <dt>Gênero</dt><dd th:text="${character.gender != null ? character.gender : 'Não informado'}"></dd>
+            <dt>Ocupação</dt><dd th:text="${character.occupation != null ? character.occupation : 'Não informada'}"></dd>
+            <dt>Status</dt><dd th:text="${character.status != null ? character.status : 'Não informado'}"></dd>
+            <dt>Frases</dt>
+            <dd>
+                <ul>
+                    <li th:each="phrase : ${character.phrases}" th:text="${phrase}"></li>
+                </ul>
+            </dd>
+        </dl>
+    </section>
+</main>
+</body>
+</html>
